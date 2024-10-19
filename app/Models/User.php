@@ -27,8 +27,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        'username',
         'password',
+        'role',
     ];
 
     /**
@@ -63,5 +64,26 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    // Relationship: A Butler can have many Presence records
+    public function presences()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    // Helper methods to check roles
+    public function isManager()
+    {
+        return $this->role === 'manager';
+    }
+
+    public function isHR()
+    {
+        return $this->role === 'hr';
+    }
+
+    public function isButler()
+    {
+        return $this->role === 'butler';
     }
 }
